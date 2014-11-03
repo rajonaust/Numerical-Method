@@ -1,4 +1,4 @@
-// Newton-Raphson Method
+// Bisection Method
 // To find all possible root for an equation .
 #include <iostream>
 #include <cmath>
