@@ -1,0 +1,33 @@
+// Newton-Raphson Method
+// To solve an equation .
+#include <iostream>
+#include <cmath>
+#include <cstdio>
+using namespace std;
+#define EPS 1e-8
+double f (double x)
+{
+    return x*x + (-5)*x + 6 ;
+}
+double diff_f (double x)
+{
+    return 2*x + (-5) ;
+}
+double secant()
+{
+    double x0 = 10 ;
+    while(fabs(f(x0))>=EPS)
+    {
+        double x1 = x0 - (f(x0)/diff_f(x0))  ;
+        x0 = x1 ;
+    }
+    return x0 ;
+}
+int main()
+{
+    printf("The root is : %.6lf\n",secant());
+    return 0;
+}
+/*
+The root is : 3.000000
+*/
