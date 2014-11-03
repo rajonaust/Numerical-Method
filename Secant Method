@@ -1,0 +1,33 @@
+// Secant Method
+// To solve an equation .
+#include <iostream>
+#include <cmath>
+#include <cstdio>
+using namespace std;
+#define EPS 1e-8
+double f (double x)
+{
+    return x*x + (-5)*x + 6 ;
+}
+double secant()
+{
+    double x1 = 1 , x2 = 3 , x3 = 0  ;
+    // if(f(x1)*f(x2)>0) puts("No root lies in this interval") ;
+    // Secant method does not require that root lies in selected interval .
+    // Randomly choose an interval .
+    while(fabs(f(x3))>=EPS)
+    {
+        x3 = (f(x2)*x1-f(x1)*x2) / (f(x2)-f(x1)) ;
+        x1=x2;
+        x2=x3;
+    }
+    return x3 ;
+}
+int main()
+{
+    printf("The root is : %.6lf\n",secant());
+    return 0;
+}
+/*
+The root is : 3.000000
+*/
