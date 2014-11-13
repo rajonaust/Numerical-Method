@@ -1,0 +1,92 @@
+// Gauss-Jordan Method .
+// Solve the N equations for N variables .
+// Time Complexity O(1/3N^3)
+#include <iostream>
+#include <cstdio>
+#include <cmath>
+using namespace std;
+double matrix[100+10][100+10] ;
+bool no_solution_test(int N)
+{
+    for(int i=1;i<=N;i++)
+    {
+        bool flag = false ;
+        for(int j=1;j<=N;j++)
+        {
+            if(matrix[i][j]!=0) flag = true ;
+        }
+        if(!flag&&matrix[i][N+1]!=0) { cout << "No Solution Exist!" << endl ; return true ; }
+    }
+    return false ;
+}
+bool infinite_solution_test(int N)
+{
+    bool flag = false;
+    for(int i=1;i<=N;i++)
+    {
+        for(int j=1;j<=N+1;j++)
+        {
+            if(matrix[i][j]!=0) flag = true ;
+        }
+    }
+    if(!flag) { cout << "Infinite Solution Exist!" << endl ; return true ; }
+
+    for(int i=1;i<=N;i++)
+    {
+        for(int j=i+1;j<=N;j++)
+        {
+            if(matrix[j][i]!=0) { cout << "Infinite Solution Exist!" << endl ; return true ;  }
+        }
+    }
+    return false ;
+}
+int find_pivot(int k,int N)
+{
+    int t = k;
+    for(int i=k+1;i<=N;i++)
+        if(fabs(matrix[i][k])>fabs(matrix[t][k])) t = i ;
+    return t ;
+}
+void swap(int a,int b,int N)
+{
+    for(int i=1;i<=N+1;i++)
+    {
+        double temp = matrix[a][i];
+        matrix[a][i]=matrix[b][i];
+        matrix[b][i]=temp;
+    }
+}
+int main()
+{
+    int N ; // N is the number of unknown variables and equation .
+    cin >> N ;
+    for(int i=1;i<=N;i++)
+    {
+        for(int j=1;j<=N+1;j++)
+        {
+            cin >> matrix[i][j] ;
+        }
+    }
+
+    for(int i=1;i<=N;i++)
+    {
+        swap(find_pivot(i,N),i,N);
+        for(int j=1;j<=N;j++)
+        {
+            if(i==j) continue ;
+            double C = matrix[j][i] ;
+            for(int k=1;k<=N+1;k++)
+            {
+                if(matrix[i][i]==0) matrix[j][k]=0;
+                else matrix[j][k]-=C*(matrix[i][k]/matrix[i][i]) ;
+            }
+        }
+    }
+
+    if(!(no_solution_test(N)||infinite_solution_test(N)))
+    {
+        cout << "Solution for " << N << " variables : " << endl ;
+        for(int i=1;i<=N;i++) cout << "x"<< i << " : " << matrix[i][N+1]/matrix[i][i] << endl ;
+    }
+    return 0;
+}
