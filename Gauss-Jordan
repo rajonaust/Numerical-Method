@@ -1,6 +1,6 @@
 // Gauss-Jordan Method .
 // Solve the N equations for N variables .
-// Time Complexity O(1/3N^3)
+// Time Complexity O(N^3/3)
 #include <iostream>
 #include <cstdio>
 #include <cmath>
