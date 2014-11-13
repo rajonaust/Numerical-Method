@@ -19,27 +19,6 @@ bool no_solution_test(int N)
     }
     return false ;
 }
-bool infinite_solution_test(int N)
-{
-    bool flag = false;
-    for(int i=1;i<=N;i++)
-    {
-        for(int j=1;j<=N+1;j++)
-        {
-            if(matrix[i][j]!=0) flag = true ;
-        }
-    }
-    if(!flag) { cout << "Infinite Solution Exist!" << endl ; return true ; }
-
-    for(int i=1;i<=N;i++)
-    {
-        for(int j=i+1;j<=N;j++)
-        {
-            if(matrix[j][i]!=0) { cout << "Infinite Solution Exist!" << endl ; return true ;  }
-        }
-    }
-    return false ;
-}
 int find_pivot(int k,int N)
 {
     int t = k;
@@ -68,23 +47,24 @@ int main()
         }
     }
 
+    bool infinite_solution = false ;
     for(int i=1;i<=N;i++)
     {
         // Forward elimination phase
         swap(find_pivot(i,N),i,N);
+        if(matrix[i][i]==0) { infinite_solution = true ; continue ; }
         for(int j=i+1;j<=N;j++)
         {
             if(i==j) continue ;
             double C = matrix[j][i] ;
             for(int k=i;k<=N+1;k++)
-            {
-                if(matrix[i][i]==0) matrix[j][k]=0;
-                else matrix[j][k]-=C*(matrix[i][k]/matrix[i][i]) ;
-            }
+                matrix[j][k]-=C*(matrix[i][k]/matrix[i][i]) ;
         }
     }
 
-    if(!(no_solution_test(N)||infinite_solution_test(N)))
+    if(no_solution_test(N)) cout << "No Solution Exist!" << endl ;
+    else if(infinite_solution) cout << "Infinite Solution Exist!" << endl ;
+    else
     {
         double sol[N+1];
         //Back substitution phase
